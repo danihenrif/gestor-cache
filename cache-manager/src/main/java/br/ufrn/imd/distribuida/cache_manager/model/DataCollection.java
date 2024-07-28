@@ -8,7 +8,7 @@ public class DataCollection {
 	@Id
 	private String id;
 
-	private String origin;
+	private String database;
 
 	private String data;
 
@@ -20,12 +20,12 @@ public class DataCollection {
 		this.id = id;
 	}
 
-	public String getOrigin() {
-		return origin;
+	public String getDatabase() {
+		return database;
 	}
 
-	public void setOrigin(String origin) {
-		this.origin = origin;
+	public void setDatabase(String database) {
+		this.database = database;
 	}
 
 	public String getData() {

@@ -1,5 +1,6 @@
 package br.ufrn.imd.distribuida.cache_manager.service;
 
+import br.ufrn.imd.distribuida.cache_manager.dto.DataCollectionDTO;
 import br.ufrn.imd.distribuida.cache_manager.model.DataCollection;
 import br.ufrn.imd.distribuida.cache_manager.repository.DataCollectionRepository;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,10 @@ public class DataCollectionService {
 	}
 
 
-	public DataCollection create(DataCollection dataCollection) {
-		return this.dataCollectionRepository.save(dataCollection);
+	public DataCollectionDTO create(DataCollection dataCollection) {
+		DataCollection data =  this.dataCollectionRepository.save(dataCollection);
+		DataCollectionDTO dataReturn = new DataCollectionDTO(data.getId());
+		return dataReturn;
 	}
 
 	public DataCollection findById(String id) {
