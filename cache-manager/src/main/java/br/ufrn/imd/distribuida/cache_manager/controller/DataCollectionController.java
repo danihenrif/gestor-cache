@@ -2,7 +2,7 @@ package br.ufrn.imd.distribuida.cache_manager.controller;
 
 import br.ufrn.imd.distribuida.cache_manager.dto.DataCollectionDTO;
 import br.ufrn.imd.distribuida.cache_manager.exceptions.DataNotFoundException;
-import br.ufrn.imd.distribuida.cache_manager.exceptions.InvalidDataException;
+import br.ufrn.imd.distribuida.cache_manager.exceptions.InvalidRequestException;
 import br.ufrn.imd.distribuida.cache_manager.model.DataCollection;
 import br.ufrn.imd.distribuida.cache_manager.service.DataCollectionService;
 import jakarta.validation.Valid;
@@ -21,7 +21,7 @@ public class DataCollectionController {
     }
 
     @GetMapping("/cache/{id}")
-    public ResponseEntity<DataCollection> findById(
+    public ResponseEntity<Object> findById(
             @PathVariable("id") String id,
             @RequestHeader(value = "X-Application-Token", required = true) String token) {
 
@@ -37,7 +37,7 @@ public class DataCollectionController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
         } catch (DataNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -48,7 +48,7 @@ public class DataCollectionController {
         try {
             DataCollectionDTO dataCollectionDTO = this.dataCollectionService.create(dataCollection);
             return ResponseEntity.status(HttpStatus.CREATED).body(dataCollectionDTO);
-        } catch (InvalidDataException e) {
+        } catch (InvalidRequestException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

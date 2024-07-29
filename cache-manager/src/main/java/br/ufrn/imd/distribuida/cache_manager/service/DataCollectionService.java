@@ -1,6 +1,7 @@
 package br.ufrn.imd.distribuida.cache_manager.service;
 
 import br.ufrn.imd.distribuida.cache_manager.dto.DataCollectionDTO;
+import br.ufrn.imd.distribuida.cache_manager.exceptions.DataNotFoundException;
 import br.ufrn.imd.distribuida.cache_manager.model.DataCollection;
 import br.ufrn.imd.distribuida.cache_manager.repository.DataCollectionRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class DataCollectionService {
 	public DataCollection findById(String id) {
 		Optional<DataCollection> dataCollectionOptional = this.dataCollectionRepository.findById(id);
 		if(dataCollectionOptional.isEmpty()) {
-			throw new RuntimeException("Error: data collection with id " + id + " not found.");
+			throw new DataNotFoundException("Error: data collection with id " + id + " not found.");
 		}
 		return dataCollectionOptional.get();
 	}
