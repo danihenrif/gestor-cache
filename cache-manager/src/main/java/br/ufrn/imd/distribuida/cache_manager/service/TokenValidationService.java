@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import br.ufrn.imd.distribuida.cache_manager.dto.TokenValidationResponseDTO;
+
 @Service
 public class TokenValidationService {
     private final RestTemplate restTemplate;
@@ -17,7 +19,8 @@ public class TokenValidationService {
     }
 
     public String validateToken(String token) {
-        String url = "http://10.7.40.177:8000/token/" + token;
+        String url = "http://mock:8080/teste/" + token;
+
 
         // Configurar o cabeçalho da requisição
         HttpHeaders headers = new HttpHeaders();
@@ -25,14 +28,15 @@ public class TokenValidationService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+            ResponseEntity<TokenValidationResponseDTO> response = restTemplate.exchange(url, HttpMethod.POST, entity, TokenValidationResponseDTO.class);
             if (response.getStatusCode() == HttpStatus.OK) {
-                String responseBody = response.getBody();
+                TokenValidationResponseDTO responseBody = response.getBody();
                 if (responseBody != null) {
-                    if (responseBody.contains("\"authenticated\": \"dashboards\"")) {
+                    String authenticated = responseBody.getAuthenticated();
+                    if ("dashboards".equals(authenticated)) {
                         return "dashboards";
-                    } else if (responseBody.contains("\"authenticated\": \"data_access\"")) {
-                        return "data_access";
+                    } else if ("data_and_schedule".equals(authenticated)) {
+                        return "data_and_schedule";
                     }
                 }
             }

@@ -57,7 +57,7 @@ public class DataCollectionController {
     public ResponseEntity<DataCollectionDTO> save(@Valid @RequestBody DataCollection dataCollection,
                                                   @RequestHeader(value = "X-Application-Token", required = true) String token) {
         String appType = tokenValidationService.validateToken(token);
-        if (appType == null || !"data_access".equals(appType)) {
+        if (appType == null || !"data_and_schedule".equals(appType)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 

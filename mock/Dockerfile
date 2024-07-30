@@ -5,11 +5,11 @@ FROM maven:3.9.8-eclipse-temurin-17-alpine AS build
 WORKDIR /app
 
 # Copy the pom.xml file and download the dependencies
-COPY cache-manager/pom.xml .
+COPY mock/pom.xml .
 RUN mvn dependency:go-offline
 
 # Copy the rest of the application source code
-COPY cache-manager/src ./src
+COPY mock/src ./src
 
 # Package the application
 RUN mvn clean package -DskipTests
@@ -21,8 +21,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the application JAR file from the build stage
-COPY --from=build /app/target/cache-manager-0.0.1-SNAPSHOT.jar /app/cache-manager.jar
+COPY --from=build /app/target/mock-autenticacao-0.0.1-SNAPSHOT.jar /app/mock-autenticacao.jar
 
+# Make port 8080 available to the world outside this container
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app/cache-manager.jar"]
+# Run the Spring Boot application
+ENTRYPOINT ["java", "-jar", "/app/mock-autenticacao.jar"]
