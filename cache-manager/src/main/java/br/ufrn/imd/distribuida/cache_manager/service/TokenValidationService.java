@@ -31,8 +31,8 @@ public class TokenValidationService {
                 if (responseBody != null) {
                     if (responseBody.contains("\"authenticated\": \"dashboards\"")) {
                         return "dashboards";
-                    } else if (responseBody.contains("\"authenticated\": \"data_access\"")) {
-                        return "data_access";
+                    } else if (responseBody.contains("\"authenticated\": \"data_and_schedule\"")) {
+                        return "data_and_schedule";
                     }
                 }
             }
