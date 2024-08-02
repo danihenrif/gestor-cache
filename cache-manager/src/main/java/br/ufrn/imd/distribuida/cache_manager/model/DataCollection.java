@@ -14,7 +14,7 @@ public class DataCollection {
 	@NotBlank(message = "Database is required")
 	private String database;
 	@NotNull(message = "data is required")
-	private UnifiedData data;
+	private Object data;
 
 	public String getId() {
 		return id;
@@ -32,11 +32,11 @@ public class DataCollection {
 		this.database = database;
 	}
 
-	public UnifiedData getData() {
+	public Object getData() {
 		return data;
 	}
 
-	public void setData(UnifiedData data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 }
