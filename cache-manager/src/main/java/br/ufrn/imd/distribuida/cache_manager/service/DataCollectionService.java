@@ -32,4 +32,7 @@ public class DataCollectionService {
 		return dataCollectionOptional.get();
 	}
 
+	public void deleteById(String id) {
+		this.dataCollectionRepository.deleteById(id);
+	}
 }
