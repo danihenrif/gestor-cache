@@ -14,8 +14,15 @@ public class SimpleController {
 
     @PostMapping("/{dash}")
     public ResponseEntity<AuthResponse> getAuthStatus(@PathVariable String dash) {
-        AuthResponse response = new AuthResponse("dashboards");
-        return ResponseEntity.ok(response);
+        AuthResponse response = new AuthResponse("nao-autenticado");
+        if("dashboards:130321860990926919292642443324377346416".equals(dash)){
+            response = new AuthResponse("dashboards");
+            return ResponseEntity.ok(response);
+        }
+        if("data_and_schedule:43829315022000650150631673672638531889".equals(dash)){
+            response = new AuthResponse("data_and_schedule");
+        }     
+        return ResponseEntity.ok(response);   
     }
 }
     

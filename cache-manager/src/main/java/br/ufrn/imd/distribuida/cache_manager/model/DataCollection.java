@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "data_collection")
 public class DataCollection {
@@ -12,8 +13,8 @@ public class DataCollection {
 	private String id;
 	@NotBlank(message = "Database is required")
 	private String database;
-	@NotBlank(message = "data is required")
-	private String data;
+	@NotNull(message = "data is required")
+	private UnifiedData data;
 
 	public String getId() {
 		return id;
@@ -31,11 +32,11 @@ public class DataCollection {
 		this.database = database;
 	}
 
-	public String getData() {
+	public UnifiedData getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(UnifiedData data) {
 		this.data = data;
 	}
 }
