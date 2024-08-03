@@ -24,12 +24,10 @@ import jakarta.validation.Valid;
 public class DataCollectionController {
     private final DataCollectionService dataCollectionService;
     private final TokenValidationService tokenValidationService;
-    private final CacheTrackingService cacheTrackingService;
 
     DataCollectionController(DataCollectionService dataCollectionService, TokenValidationService tokenValidationService, CacheTrackingService cacheTrackingService) {
         this.dataCollectionService = dataCollectionService;
         this.tokenValidationService = tokenValidationService;
-        this.cacheTrackingService = new CacheTrackingService();
     }
 
     @GetMapping("/cache/{id}")
@@ -43,15 +41,8 @@ public class DataCollectionController {
         }
 
         try {
-            DataCollection dataCollection = this.dataCollectionService.findById(id);
+            DataCollection dataCollection = this.dataCollectionService.findById(id, token);
             if (dataCollection != null) {
-
-                boolean isTracked = cacheTrackingService.trackAccess(token);
-                if (isTracked && cacheTrackingService.allDashboardsAccessed()) {
-                    dataCollectionService.deleteById(id);
-                    cacheTrackingService.clearCache();
-                }
-
                 return ResponseEntity.ok(dataCollection);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

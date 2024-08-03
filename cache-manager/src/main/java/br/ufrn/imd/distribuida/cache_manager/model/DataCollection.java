@@ -13,7 +13,7 @@ public class DataCollection {
 	@NotBlank(message = "Database is required")
 	private String database;
 	@NotBlank(message = "data is required")
-	private Object data;
+	private String data;
 
 	public String getId() {
 		return id;
@@ -31,7 +31,7 @@ public class DataCollection {
 		this.database = database;
 	}
 
-	public Object getData() {
+	public String getData() {
 		return data;
 	}
 

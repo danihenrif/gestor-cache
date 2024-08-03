@@ -12,9 +12,11 @@ import java.util.Optional;
 public class DataCollectionService {
 
 	private final DataCollectionRepository dataCollectionRepository;
+	private final CacheTrackingService cacheTrackingService;
 
-	DataCollectionService(DataCollectionRepository dataCollectionRepository) {
+	DataCollectionService(DataCollectionRepository dataCollectionRepository, CacheTrackingService cacheTrackingService) {
 		this.dataCollectionRepository = dataCollectionRepository;
+		this.cacheTrackingService = cacheTrackingService;
 	}
 
 
@@ -24,15 +26,25 @@ public class DataCollectionService {
 		return dataReturn;
 	}
 
-	public DataCollection findById(String id) {
-		Optional<DataCollection> dataCollectionOptional = this.dataCollectionRepository.findById(id);
-		if(dataCollectionOptional.isEmpty()) {
-			throw new DataNotFoundException("Error: data collection with id " + id + " not found.");
-		}
-		return dataCollectionOptional.get();
-	}
 
 	public void deleteById(String id) {
 		this.dataCollectionRepository.deleteById(id);
 	}
+
+	public DataCollection findById(String id, String token) {
+		Optional<DataCollection> dataCollectionOptional = this.dataCollectionRepository.findById(id);
+
+		if(dataCollectionOptional.isEmpty()) {
+			throw new DataNotFoundException("Error: data collection with id " + id + " not found.");
+		}
+
+		boolean isTracked = cacheTrackingService.trackAccess(token);
+		if (isTracked && cacheTrackingService.allDashboardsAccessed()) {
+			this.deleteById(id);
+			cacheTrackingService.clearCache();
+		}
+
+		return dataCollectionOptional.get();
+	}
+
 }
