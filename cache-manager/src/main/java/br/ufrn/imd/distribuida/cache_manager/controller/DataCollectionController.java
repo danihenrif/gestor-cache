@@ -1,5 +1,6 @@
 package br.ufrn.imd.distribuida.cache_manager.controller;
 
+import br.ufrn.imd.distribuida.cache_manager.service.CacheTrackingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class DataCollectionController {
     private final DataCollectionService dataCollectionService;
     private final TokenValidationService tokenValidationService;
 
-    DataCollectionController(DataCollectionService dataCollectionService, TokenValidationService tokenValidationService) {
+    DataCollectionController(DataCollectionService dataCollectionService, TokenValidationService tokenValidationService, CacheTrackingService cacheTrackingService) {
         this.dataCollectionService = dataCollectionService;
         this.tokenValidationService = tokenValidationService;
     }
@@ -34,13 +35,13 @@ public class DataCollectionController {
             @PathVariable("id") String id,
             @RequestHeader(value = "X-Application-Token", required = true) String token) {
 
-        String appType = tokenValidationService.validateToken(token);
-        if (appType == null || !"dashboards".equals(appType)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized application or invalid token.");
-        }
+//        String appType = tokenValidationService.validateToken(token);
+//        if (appType == null || !"dashboards".equals(appType)) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized application or invalid token.");
+//        }
 
         try {
-            DataCollection dataCollection = this.dataCollectionService.findById(id);
+            DataCollection dataCollection = this.dataCollectionService.findById(id, token);
             if (dataCollection != null) {
                 return ResponseEntity.ok(dataCollection);
             } else {
@@ -56,10 +57,10 @@ public class DataCollectionController {
     @PostMapping("/cache")
     public ResponseEntity<DataCollectionDTO> save(@Valid @RequestBody DataCollection dataCollection,
                                                   @RequestHeader(value = "X-Application-Token", required = true) String token) {
-        String appType = tokenValidationService.validateToken(token);
-        if (appType == null || !"data_and_schedule".equals(appType)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
+//        String appType = tokenValidationService.validateToken(token);
+//        if (appType == null || !"data_and_schedule".equals(appType)) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+//        }
 
         try {
             DataCollectionDTO dataCollectionDTO = this.dataCollectionService.create(dataCollection);
