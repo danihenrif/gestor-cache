@@ -35,10 +35,10 @@ public class DataCollectionController {
             @PathVariable("id") String id,
             @RequestHeader(value = "X-Application-Token", required = true) String token) {
 
-        String appType = tokenValidationService.validateToken(token);
-        if (appType == null || !"dashboards".equals(appType)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized application or invalid token.");
-        }
+//        String appType = tokenValidationService.validateToken(token);
+//        if (appType == null || !"dashboards".equals(appType)) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized application or invalid token.");
+//        }
 
         try {
             DataCollection dataCollection = this.dataCollectionService.findById(id, token);
@@ -57,10 +57,10 @@ public class DataCollectionController {
     @PostMapping("/cache")
     public ResponseEntity<DataCollectionDTO> save(@Valid @RequestBody DataCollection dataCollection,
                                                   @RequestHeader(value = "X-Application-Token", required = true) String token) {
-        String appType = tokenValidationService.validateToken(token);
-        if (appType == null || !"data_and_schedule".equals(appType)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
+//        String appType = tokenValidationService.validateToken(token);
+//        if (appType == null || !"data_and_schedule".equals(appType)) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+//        }
 
         try {
             DataCollectionDTO dataCollectionDTO = this.dataCollectionService.create(dataCollection);
