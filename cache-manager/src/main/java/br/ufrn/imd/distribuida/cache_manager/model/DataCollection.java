@@ -1,5 +1,6 @@
 package br.ufrn.imd.distribuida.cache_manager.model;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,8 +13,8 @@ public class DataCollection {
 	private String id;
 	@NotBlank(message = "Database is required")
 	private String database;
-	@NotBlank(message = "data is required")
-	private String data;
+	@NotNull(message = "data is required")
+	private Object data;
 
 	public String getId() {
 		return id;
@@ -31,11 +32,11 @@ public class DataCollection {
 		this.database = database;
 	}
 
-	public String getData() {
+	public Object getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 }
