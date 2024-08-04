@@ -1,1 +1,1 @@
-FROM mongodb/mongodb-community-server:5.0-ubi8 as db-img
+FROM mongodb/mongodb-community-server:5.0-ubi8 AS db-img

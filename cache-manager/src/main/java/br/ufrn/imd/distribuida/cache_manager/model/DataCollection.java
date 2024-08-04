@@ -1,5 +1,6 @@
 package br.ufrn.imd.distribuida.cache_manager.model;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
