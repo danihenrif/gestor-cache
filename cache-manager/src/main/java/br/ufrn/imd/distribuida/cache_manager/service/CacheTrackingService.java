@@ -17,21 +17,14 @@ public class CacheTrackingService {
 
     /**
      * Tracks dashboard access for cache clearing.
-     * To simulate a more realistic scenario where multiple dashboards might access the cache,
+     * To simulate a more realistic scenario where 3 dashboards might access the cache,
      * the behavior for the first two access attempts is randomized.
      */
     public boolean trackAccess(String token) {
         if (dashboardTokens.contains(token)) {
             accessCount++;
 
-            if (accessCount <= 2) {
-                // Randomly decide to add token for the first two attempts
-                boolean shouldAdd = random.nextBoolean();
-                if (shouldAdd) {
-                    accessedDashboards.add(token);
-                }
-                return shouldAdd;
-            } else {
+            if (accessCount == 3) {
                 accessCount = 0;
 
                 // Always add token on the third attempt
