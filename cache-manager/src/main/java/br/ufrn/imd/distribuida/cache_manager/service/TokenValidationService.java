@@ -19,7 +19,7 @@ public class TokenValidationService {
     }
 
     public String validateToken(String token) {
-        String url = "http://10.7.40.177:8000/token/" + token;
+        String url = "http://mock:8080/teste/" + token;
 
 
         // Configurar o cabeçalho da requisição

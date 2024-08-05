@@ -21,9 +21,20 @@ services:
       - "8080:8080"
     depends_on:
       - mongodb
+      - mock
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://root:example@mongodb:27017/test?authSource=admin
+      TOKEN_SERVICE_URL: http://mock:8080/teste  # Configura a URL do mock como variável de ambiente
     volumes:
-      - ./logs:/app/logs   
+      - ./logs:/app/logs
+
+  mock:
+    build:
+      context: .
+      dockerfile: mock/Dockerfile 
+    container_name: mock
+    ports:
+      - "8081:8080"  
+      
 volumes:
   mongo-data:
